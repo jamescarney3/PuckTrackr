@@ -1,12 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    mote (1.1.4)
+    mote-render (1.1.0)
     puma (2.15.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  mote
+  mote-render
   puma
 
 BUNDLED WITH
