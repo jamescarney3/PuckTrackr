@@ -1,5 +1,5 @@
 require "./app"
 
-use Rack::Static, :urls => ["/lib"]
+use Rack::Static, :urls => ["/javascripts"], :root => "assets"
 
 run(Cuba)

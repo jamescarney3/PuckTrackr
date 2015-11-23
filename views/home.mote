@@ -3,7 +3,7 @@
     <title>Mote Layout</title>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script src="../lib/scripty.js"></script>
+    <script src="../javascripts/scripty.js"></script>
 
     <script>
       $(document).ready(function(){
