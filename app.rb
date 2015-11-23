@@ -14,5 +14,10 @@ Cuba.define do
       res.write("This is a sandbox application for trying things out with the
                 Cuba gem. In development it runs on a puma server.")
     end
+
+    on "randnum" do
+      sleep 2
+      res.write(rand(100))
+    end
   end
 end

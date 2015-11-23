@@ -2,12 +2,14 @@
   <head>
     <title>Mote Layout For Practice Cuba App</title>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="../javascripts/scripty.js"></script>
+    <script src="../javascripts/rand_ints.js"></script>
 
     <script>
       $(document).ready(function(){
         window.CubaTutorial.sayHello();
+        $("#serverRandNumRequest").on("click", CubaTutorial.getRandNum);
       });
     </script>
   </head>
