@@ -15,6 +15,9 @@
   <body>
     <h1>Hello, world!</h1>
     <img src="../img/lolwutpear.jpg">
+    <br>
+    <button id="serverRandNumRequest">Ask the server for a random number</button>
+    <h2>The server replied: <span id="serverRandNum"></span></h2>
   </body>
 
 </html>
