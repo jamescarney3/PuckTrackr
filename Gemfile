@@ -7,3 +7,5 @@ gem 'mote'
 gem 'mote-render'
 
 gem 'byebug'
+
+gem 'bcrypt'
