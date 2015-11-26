@@ -9,10 +9,13 @@ Cuba.plugin(Mote::Render)
 
 Cuba.define do
   on root do
-    byebug
-    cookie = SecureRandom::urlsafe_base64
-    res.set_cookie("CubaTutorialApp", cookie)
-    res.write partial("home")
+    if req.cookies["CubaTutorialApp"]
+      cta_cookie = req.cookies["CubaTutorialApp"]
+    else
+      cookie = SecureRandom::urlsafe_base64
+      res.set_cookie("CubaTutorialApp", cookie)
+    end
+    res.write partial("home", cookie: cta_cookie)
   end
 
   on get do
@@ -28,5 +31,11 @@ Cuba.define do
       sleep 2
       res.write(rand(100))
     end
+
+    on "deleteCookie" do
+      res.delete_cookie("CubaTutorialApp")
+      res.write(nil)
+    end
+
   end
 end

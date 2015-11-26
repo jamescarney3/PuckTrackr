@@ -18,8 +18,13 @@
     <h1>Hello, world!</h1>
     <img src="../img/lolwutpear.jpg">
     <br>
+
     <button id="serverRandNumRequest">Ask the server for a random number</button>
     <h2>The server replied: <span id="serverRandNum"></span></h2>
+    <br>
+
+    <button id="deleteCookie">Delete my cookie</button>
+    <h2>Your CubaTutorialApp cookie is: {{cookie}}</h2>
   </body>
 
 </html>
