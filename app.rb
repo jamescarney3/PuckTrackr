@@ -2,14 +2,15 @@ require "cuba"
 require "mote"
 require "mote/render"
 require "byebug"
-require 'securerandom'
+require "securerandom"
+
+require_relative "util.rb"
 
 
 Cuba.plugin(Mote::Render)
 
 Cuba.define do
   on root do
-    byebug
     if req.cookies["CubaTutorialApp"]
       cta_cookie = req.cookies["CubaTutorialApp"]
     else

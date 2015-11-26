@@ -5,6 +5,7 @@
 
   var getRandNum = CubaTutorial.getRandNum = function(event){
     event.preventDefault();
+    
     var button =  event.currentTarget;
     var randNumEl = $("#serverRandNum");
     var url = "/randnum";
