@@ -5,11 +5,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="../javascripts/scripty.js"></script>
     <script src="../javascripts/rand_ints.js"></script>
+    <script src="../javascripts/manage_cookies.js"></script>
 
     <script>
       $(document).ready(function(){
-        window.CubaTutorial.sayHello();
+        // window.CubaTutorial.sayHello();
         $("#serverRandNumRequest").on("click", CubaTutorial.getRandNum);
+        $("#deleteCookie").on("click", CubaTutorial.deleteCookie);
       });
     </script>
   </head>
@@ -24,7 +26,11 @@
     <br>
 
     <button id="deleteCookie">Delete my cookie</button>
-    <h2>Your CubaTutorialApp cookie is: {{cookie}}</h2>
+    % if cookie
+      <h2 id="cookieDisplay">Your CubaTutorialApp cookie is: {{cookie}}</h2>
+    % else
+      <h2 id="cookieDisplay">No cookie currently set.</h2>
+    %end
   </body>
 
 </html>

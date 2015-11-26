@@ -9,11 +9,12 @@ Cuba.plugin(Mote::Render)
 
 Cuba.define do
   on root do
+    byebug
     if req.cookies["CubaTutorialApp"]
       cta_cookie = req.cookies["CubaTutorialApp"]
     else
-      cookie = SecureRandom::urlsafe_base64
-      res.set_cookie("CubaTutorialApp", cookie)
+      cta_cookie = SecureRandom::urlsafe_base64
+      res.set_cookie("CubaTutorialApp", cta_cookie)
     end
     res.write partial("home", cookie: cta_cookie)
   end
