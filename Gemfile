@@ -9,3 +9,5 @@ gem 'mote-render'
 gem 'byebug'
 
 gem 'bcrypt'
+
+gem 'pg'

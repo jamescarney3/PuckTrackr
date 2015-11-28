@@ -5,6 +5,7 @@ GEM
     byebug (8.2.0)
     mote (1.1.4)
     mote-render (1.1.0)
+    pg (0.18.4)
     puma (2.15.3)
 
 PLATFORMS
@@ -15,6 +16,7 @@ DEPENDENCIES
   byebug
   mote
   mote-render
+  pg
   puma
 
 BUNDLED WITH

@@ -3,6 +3,7 @@ require "mote"
 require "mote/render"
 require "byebug"
 require "securerandom"
+require "pg"
 
 require_relative "util.rb"
 
