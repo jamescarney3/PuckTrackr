@@ -5,7 +5,7 @@ require "byebug"
 require "securerandom"
 require "pg"
 
-require_relative "util.rb"
+require_relative "db_utils.rb"
 
 
 Cuba.plugin(Mote::Render)
@@ -38,6 +38,10 @@ Cuba.define do
     on "deleteCookie" do
       res.delete_cookie("CubaTutorialApp")
       res.write(nil)
+    end
+
+    on "database" do
+      debugger
     end
 
   end
