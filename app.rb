@@ -6,6 +6,7 @@ require "securerandom"
 require "pg"
 
 require_relative "db_utils.rb"
+require_relative "http_utils.rb"
 
 
 Cuba.plugin(Mote::Render)
@@ -41,8 +42,14 @@ Cuba.define do
     end
 
     on "database" do
-      debugger
+      on "get" do
+        nums = get_user_numbers
+        res.write(nums)
+      end
+      on "set" do
+        set_user_numbers(params.values)
+        res.write(nil)
+      end
     end
-
   end
 end
