@@ -7,6 +7,7 @@ require "pg"
 
 require_relative "db_utils.rb"
 require_relative "http_utils.rb"
+require_relative "scraper.rb"
 
 
 Cuba.plugin(Mote::Render)
