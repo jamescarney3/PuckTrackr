@@ -11,3 +11,5 @@ gem 'byebug'
 gem 'bcrypt'
 
 gem 'pg'
+
+gem 'nokogiri'

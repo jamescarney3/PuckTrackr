@@ -4,48 +4,16 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="../javascripts/scripty.js"></script>
-    <script src="../javascripts/rand_ints.js"></script>
-    <script src="../javascripts/manage_cookies.js"></script>
-    <script src="../javascripts/database_utils.js"></script>
 
     <script>
       $(document).ready(function(){
-        // window.CubaTutorial.sayHello();
-        $("#serverRandNumRequest").on("click", CubaTutorial.getRandNum);
-        $("#deleteCookie").on("click", CubaTutorial.deleteCookie);
-        $("#userArraySetter").on("submit", CubaTutorial.setUserArray);
-        $("#userArrayGetter").on("click", CubaTutorial.getUserArray);
+        window.CubaTutorial.sayHello();
       });
     </script>
   </head>
 
   <body>
     <h1>Hello, world!</h1>
-    <img src="../img/lolwutpear.jpg">
-    <br>
-
-    <button id="serverRandNumRequest">Ask the server for a random number</button>
-    <h2>The server replied: <span id="serverRandNum"></span></h2>
-    <br>
-
-    % if cookie
-      <button id="deleteCookie">Delete my cookie</button>
-      <h2 id="cookieDisplay">Your CubaTutorialApp cookie is: {{cookie}}</h2>
-    % else
-      <h2 id="cookieDisplay">No cookie currently set.</h2>
-    %end
-
-    <form id="userArraySetter" action="/database">
-      <input type="checkbox" name="userArray1" value="1">1<br>
-      <input type="checkbox" name="userArray2" value="2">2<br>
-      <input type="checkbox" name="userArray3" value="3">3<br>
-      <input type="checkbox" name="userArray4" value="4">4<br>
-      <input type="checkbox" name="userArray5" value="5">5<br>
-      <button>Write these numbers and my hash to the database!</button>
-    </form>
-
-    <h2 id="userArrayWrapper" display="none">Current User Array: <span id="userArrayEl"></span></h2>
-    <button id="userArrayGetter">Get my numbers!</button>
   </body>
 
 </html>
