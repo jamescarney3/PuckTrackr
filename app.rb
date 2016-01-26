@@ -1,6 +1,8 @@
 require "cuba"
 require "mote"
 require "mote/render"
+require 'json'
+require 'byebug'
 
 require_relative "scraper.rb"
 require_relative "game.rb"
@@ -15,11 +17,20 @@ Cuba.define do
 
   on get do
     on "about" do
-      res.write("This is a sandbox application for trying things out with the
-                Cuba gem. In development it runs on a puma server.\n\n
+      res.write("This is the beginning of an application to track NHL stats in
+      real-ish time. Nothing works yet, but it will soon.")
+    end
 
-                Your SecureRandom-generated CubaTutorialApp cookie is
-                #{req.cookies["CubaTutorialApp"]}.")
+    # this should serve up a list of game data in string format
+    on "api" do
+      on "samplegame" do
+
+        url = "http://www.nhl.com/scores/htmlreports/20152016/PL010003.HTM"
+
+        scraper = Scraper.new.scrape(url)
+
+        res.write("#{scraper.data}")
+      end
     end
   end
 end

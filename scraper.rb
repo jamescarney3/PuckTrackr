@@ -1,50 +1,37 @@
 require 'net/http'
-require 'nokogiri'
 require 'open-uri'
 require 'byebug'
 
 class Scraper
 
+  attr_reader :data
+
   def initialize
-    @page = nil
-    @els = nil
-    @events = nil
+    # @els = nil
+    @data = nil
   end
 
   def scrape(url)
-    @page = Nokogiri::HTML(open(url))
+
+    raw_data = Net::HTTP.get(URI.parse(url)).gsub(/(<.+?>)+/, " ").gsub(/\n|\r|\t|&nbsp;/, "").squeeze " "
+    regex = /(\d{1,3} \d{1} (EV |PP |PK |EN |SH |)(\d{1,2}:\d{2} ){2}[A-Z]{3,5} .+?( \d{1,2} (C|R|L|D|G)){8,12})/
+
+    @data = raw_data.scan(regex).map{ |e| e.first }
     return self
   end
 
   def get_els
-    @els = @page.css("tr td[class='goal + bborder'],
-                      tr td[class=' + bborder'],
-                      tr td[class=' + bborder + rborder'],
-                      tr td[class='bold + bborder + rborder'],
-                      tr td[class='bold + bborder'],
-                      tr td[class='penalty + bborder'],
-                      tr td[class='italicize + bold + bborder + rborder'],
-                      tr td[class='italicize + bold + bborder']").map{ |e| e.text.gsub(/\n|\r/, "") }
+    return self
+  end
+
+  def get_teams
+    return self
+  end
+
+  def parse_teams
     return self
   end
 
   def parse_els
-    @events = []
-    current_event = []
-
-    @els.each_with_index do |el, i|
-
-      if i % 8 == 0
-        current_event = []
-      end
-
-      current_event << el
-
-      if current_event.length == 8
-        @events << current_event
-      end
-    end
-
-    return @events
   end
 end

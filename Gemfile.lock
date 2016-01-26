@@ -3,8 +3,12 @@ GEM
   specs:
     bcrypt (3.1.10)
     byebug (8.2.0)
+    json (1.8.1)
+    mini_portile (0.6.2)
     mote (1.1.4)
     mote-render (1.1.0)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
     pg (0.18.4)
     puma (2.15.3)
 
@@ -14,8 +18,10 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   byebug
+  json
   mote
   mote-render
+  nokogiri
   pg
   puma
 
