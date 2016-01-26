@@ -1,18 +1,32 @@
+SITUATIONS = ['EV', 'SH', 'PP']
+
 class Event
 
-  attr_reader :log_number, :period, :situation, :time_elapsed, :time_remaining,
+  attr_reader :seq, :period, :situation, :time_elapsed, :time_remaining,
               :event_type, :description, :visitor_players, :home_players
 
-  def initialize(arr)
-    @log_number = arr[0].to_i
-    @period = arr[1].to_i
-    @situation = arr[2] ? arr[2].downcase.to_sym : nil
-    @time_elapsed = arr[3].scan(/(\d+:\d{2})/).last.first
-    @time_remaining = arr[3].scan(/(\d+:\d{2})/).first.first
-    @event_type = arr[4].downcase.to_sym
-    @description = arr[5]
-    @visitor_players = arr[6]
-    @home_players = arr[7]
+  def initialize(str)
+    parse(str)
+  end
+
+  private
+
+  def parse(str)
+    arr = str.split
+    @seq = arr.shift.to_i
+    @period = arr.shift.to_i
+
+    if SITUATIONS.include?(arr.first)
+      @situation = arr.shift
+    else
+      @situation = nil
+    end
+
+    @time_elapsed = arr.shift
+    @time_remaining = arr.shift
+    @event_type = arr.shift
+
+    puts arr.join(" ")
   end
 
 
