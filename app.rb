@@ -21,6 +21,10 @@ Cuba.define do
       real-ish time. Nothing works yet, but it will soon.")
     end
 
+    on "samplegame" do
+      res.write partial("samplegame")
+    end
+
     # this should serve up a list of game data in string format
     on "api" do
       on "samplegame" do
@@ -28,8 +32,12 @@ Cuba.define do
         url = "http://www.nhl.com/scores/htmlreports/20152016/PL010003.HTM"
 
         scraper = Scraper.new.scrape(url)
+        shot_data = {
+          fla_shots: scraper.data.select{ |e| ["SHOT", "GOAL"].include?(e.split[5]) && e.split[6] == "FLA" },
+          nsh_shots: scraper.data.select{ |e| ["SHOT", "GOAL"].include?(e.split[5]) && e.split[6] == "NSH" }
+        }
 
-        res.write("#{scraper.data}")
+        res.write(shot_data.to_json)
       end
     end
   end
