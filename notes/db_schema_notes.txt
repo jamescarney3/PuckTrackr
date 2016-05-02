@@ -1,0 +1,24 @@
+table name: Games
+------------------------------
+id: int <non-null>
+serial: int <non-null>
+season: enum <non-null> ['pre', 'reg', 'post']
+date: date <non-null>
+attendance: int <non-null>
+arena: str <non-null>
+start: timestamp <non-null>
+end: timestamp <non-null>
+home_id: int <non-null> # foreign key
+visitor_id: int <non-null> # foreign key
+
+
+
+table name: Teams
+-------------------------------
+id: int <non-null>
+name: str <non-null>
+location: str <non-null>
+abbreviation: str <non-null>
+
+# possibly maintain a separate file with abbreviations in it
+# to load on scraper startup
