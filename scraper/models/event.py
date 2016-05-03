@@ -14,7 +14,6 @@ class Event:
         self.home_players = options['home_players']
 
         # @TODO break player attrs into lists of player models
-        #
 
     # eyetest method to make sure this worked in the console, not proud
     def show(self):

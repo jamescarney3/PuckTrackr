@@ -18,9 +18,11 @@ def parse_event(event_el):
     event_options['time_remaining'] = vals[3].split()[1]
     event_options['event_type'] = vals[4]
     event_options['description'] = vals[5]
-    if vals[4] != 'STOP' and vals[4] != 'PSTR' and vals[4] != 'PEND':
+    if vals[4] != 'STOP' and vals[4] != 'PSTR' and vals[4] != 'PEND' and vals[4] != 'GEND':
         event_options['team'] = vals[5][0:3]
-    event_options['visitor_players'] = vals[6]
-    event_options['home_players'] = vals[7]
+    if vals[6]:
+        event_options['visitor_players'] = vals[6]
+    if vals[7]:
+        event_options['home_players'] = vals[7]
 
     return event_options
