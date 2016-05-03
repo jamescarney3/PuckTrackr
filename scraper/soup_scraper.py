@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 whiteSpaceReducer = re.compile('(\s|\xa0|&nbsp;)+')
 
-def parseReport(url):
+def munch_report(url):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
     events = soup.find_all('tr', {'class': 'evenColor'})
