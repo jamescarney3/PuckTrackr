@@ -1,0 +1,55 @@
+Game numbering schema:
+
+preseason: PL01<0001 - number of preseason games>
+  preseason games cap off at around 100
+  ex: http://www.nhl.com/scores/htmlreports/20092010/PL010103.HTM
+  ex: http://www.nhl.com/scores/htmlreports/20092010/PL010001.HTM
+
+regular season: PL02<0001 - number of games>
+  regular season games come in at 1230 in normal, non-lockout seasons
+  ex: http://www.nhl.com/scores/htmlreports/20112012/PL020103.HTM
+  ex: http://www.nhl.com/scores/htmlreports/20112012/PL021230.HTM
+
+postseason: PL030<round number 1-4><rd1: 1-8, rd2: 1-4, rd3: 1-2 rd4: 1><game number 1-7>
+  3 digits signify round number, series number, game number
+  ex: http://www.nhl.com/scores/htmlreports/20132014/PL030311.HTM (round 3, series 1, game 1)
+  ex: http://www.nhl.com/scores/htmlreports/20132014/PL030415.HTM (cup finals, series went 5 games)
+
+
+Game Info schema:
+reg/pre season:
+  VISITOR
+  3
+  NASHVILLE PREDATORS //no space between this line and next
+  Game 2 Away Game 2
+
+  Play By Play
+  Monday, September 19, 2011
+  Attendance 7,327 at BankAtlantic Center
+  Start 7:37 EDT; End 9:51 EDT
+  Game 0003
+  Final
+
+  HOME
+  4
+  FLORIDA PANTHERS //no space between this line and next
+  Game 2 Home Game 2
+
+playoffs:
+  VISITOR
+  2
+  NEW YORK RANGERS //no space between this line and next
+  Game 25 Away Game 13
+
+  Play By Play
+  Stanley Cup Final //could also be "First Round", "Second Round", "Western/Eastern Conference Final", only ever in playoff games
+  Friday, June 13, 2014
+  Attendance 18,713 at Staples Center
+  Start 5:22 PDT; End 9:26 PDT
+  Game 0415
+  Final
+
+  HOME
+  3
+  LOS ANGELES KINGS //no space between this line and next
+  Game 26 Home Game 12
