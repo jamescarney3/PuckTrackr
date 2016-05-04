@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 #   games, keep track of its own progress, and generate URLs /
 #   dir names to pass to parse_full_report
 
-def munch_report(url):
+def parse_full_report(url):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
     events = soup.find_all('tr', {'class': 'evenColor'})
@@ -30,24 +30,12 @@ def munch_report(url):
     home_info = soup.find('table', {'id': 'Home'})
     game_info = soup.find('table', {'id': 'GameInfo'})
 
-    return {
-        'events': events,
-        'visitor_info': visitor_info,
-        'home_info': home_info,
-        'game_info': game_info
-    }
+    game = parse_game(home_info, visitor_info, game_info)
+    game['events'] = []
 
-def parse_full_report(url):
-    data = munch_report(url)
-    game = parse_game(
-        data['visitor_info'],
-        data['home_info'],
-        data['game_info'])
+    for event in events:
+        game['events'].append(parse_event(event))
 
-    events = []
-    for event in data['events']:
-        events.append(parse_event(event))
-
-    game['events'] = events
     json.dump(game, open('data_out/game.json', 'wb'))
+
     return game
