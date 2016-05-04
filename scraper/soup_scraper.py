@@ -7,6 +7,21 @@ from event_parser import parse_event
 
 from bs4 import BeautifulSoup
 
+# workflow here should roughly be:
+# - request game report from url
+# - on a 200 response parse html body into a representative dict
+# - save dict as .json file (@TODO give munch_report a way to
+#   know what dir to save a given game json object to)
+# - make entries into a central db for game and all corresponding
+#   event records
+
+# blockers:
+# - @TODO need a way to interact with db from scraper, decide
+#   which db to use
+# - @TODO need some sort of controller to periodically scrape for
+#   games, keep track of its own progress, and generate URLs /
+#   dir names to pass to parse_full_report
+
 def munch_report(url):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
