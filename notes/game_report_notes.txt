@@ -15,6 +15,11 @@ postseason: PL030<round number 1-4><rd1: 1-8, rd2: 1-4, rd3: 1-2 rd4: 1><game nu
   ex: http://www.nhl.com/scores/htmlreports/20132014/PL030311.HTM (round 3, series 1, game 1)
   ex: http://www.nhl.com/scores/htmlreports/20132014/PL030415.HTM (cup finals, series went 5 games)
 
+individual player reports:
+  these live at prefixes TH and TV (home and visitor respectively) and follow the same numbering pattern
+  ex: http://www.nhl.com/scores/htmlreports/20102011/TH020056.HTM (N.J player toi reports)
+  ex: http://www.nhl.com/scores/htmlreports/20102011/TV020056.HTM (BOS player toi reports)
+
 
 Game Info schema:
 reg/pre season:
