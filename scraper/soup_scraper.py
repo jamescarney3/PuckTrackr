@@ -19,10 +19,9 @@ from bs4 import BeautifulSoup
 # - @TODO need a way to interact with db from scraper, decide
 #   which db to use
 # - @TODO need some sort of controller to periodically scrape for
-#   games, keep track of its own progress, and generate URLs /
-#   dir names to pass to parse_full_report
+#   games
 
-def parse_full_report(url):
+def parse_full_report(url, save_dir, serial_num):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
     events = soup.find_all('tr', {'class': 'evenColor'})
@@ -36,6 +35,6 @@ def parse_full_report(url):
     for event in events:
         game['events'].append(parse_event(event))
 
-    json.dump(game, open('data_out/game.json', 'wb'))
+    json.dump(game, open(save_dir + '/' + serial_num, 'wb'))
 
     return game
