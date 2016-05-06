@@ -15,6 +15,6 @@ def get_serial_num(left_off):
         serial_string = str(left_off['season_flag']).zfill(2) + str(left_off['game']).zfill(4)
         return serial_string
     if SEASON_FLAGS['postseason'] == left_off['season_flag']:
-        game_serial_string = (str(left_off['round']) + str(series) + str(left_off['game'])).zfill(4)
+        game_serial_string = (str(left_off['round']) + str(left_off['series']) + str(left_off['game'])).zfill(4)
         serial_string = str(left_off['season_flag']).zfill(2) + game_serial_string
         return serial_string
