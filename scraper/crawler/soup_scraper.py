@@ -16,15 +16,12 @@ from bs4 import BeautifulSoup
 #   event records
 
 # blockers:
-# - @TODO NEED NEED NEED error handling at the soup_scraper layer
-#   in case a url is dead or empty or otherwise not the expected
-#   game report
 # - @TODO need a way to interact with db from scraper, decide
 #   which db to use
 # - @TODO need some sort of controller to periodically scrape for
 #   games
 
-def parse_full_report(url, save_dir, serial_num):
+def parse_full_report(url):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
     events = soup.find_all('tr', {'class': 'evenColor'})
@@ -37,7 +34,5 @@ def parse_full_report(url, save_dir, serial_num):
 
     for event in events:
         game['events'].append(parse_event(event))
-
-    json.dump(game, open(save_dir + '/' + serial_num, 'wb'))
 
     return game

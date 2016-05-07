@@ -1,5 +1,6 @@
 import json
 import os
+import datetime
 
 from url_builder import build_url, get_serial_num
 from soup_scraper import parse_full_report
@@ -16,14 +17,13 @@ SEASON_FLAGS = {
 
 def process_next_game(left_off):
     try:
-        save_game_json(left_off)
+        game_json = parse_full_report(build_url(left_off))
+        save_game_json(game_json, left_off)
+        log_success(build_url(left_off))
         left_off['times_failed'] = 0
-        print 'game saved for ' + build_url(left_off) + '!'
-        # log_success(build_url(left_off))
     except TypeError:
+        log_failure(build_url(left_off))
         left_off['times_failed'] += 1
-        print 'no game data for ' + build_url(left_off) + '!'
-        # log_failure(build_url(left_off))
 
     update_left_off(increment_left_off(left_off))
 
@@ -54,15 +54,29 @@ def increment_left_off(left_off):
             left_off['year'] += 1
     return left_off
 
-def update_left_off(left_off):
-    json.dump(left_off, open('left_off.json', 'wb'))
+def scraper_root_dir():
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-def save_game_json(left_off):
-    url = build_url(left_off)
+def update_left_off(left_off):
+    json.dump(left_off, open(scraper_root_dir() + '/resources/left_off.json', 'wb'))
+
+def save_game_json(game_json, left_off):
     serial_num = get_serial_num(left_off)
-    save_dir = 'data_out/' + str(left_off['year']) + str(left_off['year'] + 1)
+    save_dir = scraper_root_dir() + '/data_out/' + str(left_off['year']) + str(left_off['year'] + 1)
 
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
 
-    parse_full_report(url, save_dir, serial_num)
+    json.dump(game_json, open(save_dir + '/' + serial_num, 'wb'))
+
+def log_success(url):
+    save_dir = scraper_root_dir() + '/logs'
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S ')
+    with open(save_dir + '/success.log', 'a') as success_log:
+        success_log.write(timestamp + 'success: ' + url + '\n')
+
+def log_failure(url):
+    save_dir = scraper_root_dir() + '/logs'
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S ')
+    with open(save_dir + '/success.log', 'a') as failure_log:
+        failure_log.write(timestamp + ' failed: ' + url + '\n')
