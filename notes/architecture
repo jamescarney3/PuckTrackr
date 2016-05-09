@@ -1,0 +1,23 @@
+PuckTrackr
+| top level project name
+|
+|
+|-- Scraper
+    |-- crawler
+        |-- report parsers
+            |-- game reports
+            |-- toi reports
+            |-- events
+            |-- player
+        |-- url builder
+        |-- incrementer
+    |-- resources
+        |-- left off / progress json file
+    |-- data out
+        |-- year directories
+            |-- games by serial no
+    |-- logs
+        |-- successful saves & times
+        |-- failed saves & times
+|-Server
+|-WebApp
