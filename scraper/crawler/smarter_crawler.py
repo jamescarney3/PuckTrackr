@@ -1,6 +1,7 @@
 import json
 import os
 import datetime
+import time
 
 from url_builder import build_url, get_serial_num
 from soup_scraper import parse_full_report
@@ -15,6 +16,24 @@ SEASON_FLAGS = {
     'season': 2,
     'postseason': 3}
 
+# main method for crawler - if no iterations argument is passed into it
+# crawl should process games until the left_off json file is no longer up to
+# date with the current year or it is interrupted
+def crawl(iterations=None):
+    with open(scraper_root_dir() + '/resources/left_off.json') as left_off_json:
+        left_off = json.load(left_off_json)
+
+    if not iterations:
+        while is_year_current(left_off['year']):
+            process_next_game(left_off)
+            time.sleep(15)
+    else:
+        while iterations > 0:
+            process_next_game(left_off)
+            iterations -= 1
+            time.sleep(15)
+
+
 def process_next_game(left_off):
     try:
         game_json = parse_full_report(build_url(left_off))
@@ -25,7 +44,8 @@ def process_next_game(left_off):
         log_failure(build_url(left_off))
         left_off['times_failed'] += 1
 
-    update_left_off(increment_left_off(left_off))
+    save_left_off(increment_left_off(left_off))
+
 
 def increment_left_off(left_off):
     if left_off['season_flag'] == SEASON_FLAGS['preseason'] or left_off['season_flag'] == SEASON_FLAGS['season']:
@@ -54,11 +74,23 @@ def increment_left_off(left_off):
             left_off['year'] += 1
     return left_off
 
+
 def scraper_root_dir():
     return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-def update_left_off(left_off):
+
+def is_year_current(year):
+    if year <= datetime.date.today().year and datetime.date.today().month >= SEPTEMBER:
+        return true
+    elif year < datetime.date.today().year:
+        return true
+    else:
+        return false
+
+
+def save_left_off(left_off):
     json.dump(left_off, open(scraper_root_dir() + '/resources/left_off.json', 'wb'))
+
 
 def save_game_json(game_json, left_off):
     serial_num = get_serial_num(left_off)
@@ -69,11 +101,13 @@ def save_game_json(game_json, left_off):
 
     json.dump(game_json, open(save_dir + '/' + serial_num, 'wb'))
 
+
 def log_success(url):
     save_dir = scraper_root_dir() + '/logs'
     timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S ')
     with open(save_dir + '/success.log', 'a') as success_log:
         success_log.write(timestamp + 'success: ' + url + '\n')
+
 
 def log_failure(url):
     save_dir = scraper_root_dir() + '/logs'
