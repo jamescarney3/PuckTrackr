@@ -99,7 +99,7 @@ def save_game_json(game_json, left_off):
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
 
-    json.dump(game_json, open(save_dir + '/' + serial_num, 'wb'))
+    json.dump(game_json, open(save_dir + '/' + serial_num + '.json', 'wb'))
 
 
 def log_success(url):
