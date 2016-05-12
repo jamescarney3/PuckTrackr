@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for fancy hockey stats",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Carney <jmcarneyiii@gmail.com> (http://jamescarney.info)",
+  "license": "WTFPL",
+  "dependencies": {
+    "express": "^4.13.4",
+    "fs-extra": "^0.30.0",
+    "underscore": "^1.8.3"
+  }
+}
