@@ -1,8 +1,5 @@
-BASE_URL = 'http://www.nhl.com/scores/htmlreports/';
-SEASON_FLAGS = {
-    'preseason': 1,
-    'season': 2,
-    'postseason': 3}
+from utils import SEASON_FLAGS
+from utils import BASE_URL
 
 def build_url(left_off):
     serial_string = get_serial_num(left_off)

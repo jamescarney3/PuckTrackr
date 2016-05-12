@@ -35,4 +35,6 @@ def parse_full_report(url):
     for event in events:
         game['events'].append(parse_event(event))
 
+    game['url'] = url
+
     return game

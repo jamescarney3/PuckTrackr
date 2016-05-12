@@ -81,11 +81,11 @@ def scraper_root_dir():
 
 def is_year_current(year):
     if year <= datetime.date.today().year and datetime.date.today().month >= SEPTEMBER:
-        return true
+        return True
     elif year < datetime.date.today().year:
-        return true
+        return True
     else:
-        return false
+        return False
 
 
 def save_left_off(left_off):

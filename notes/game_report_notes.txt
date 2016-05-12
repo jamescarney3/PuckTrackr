@@ -24,7 +24,10 @@ Bad Report Examples:
   these are examples of the kind of crap data the scraper is going to have to
   deal with and catch errors when it chokes on them
   page loads, no data: http://www.nhl.com/scores/htmlreports/20102011/PL010011.HTM
-  
+  page loads, atypical formatting: http://www.nhl.com/scores/htmlreports/20092010/PL010002.HTM
+  sometimes part is in french: http://www.nhl.com/scores/htmlreports/20112012/PL020111.HTM
+  look at this thing over the date: http://www.nhl.com/scores/htmlreports/20102011/PL020003.HTM
+
 
 
 Game Info schema:
