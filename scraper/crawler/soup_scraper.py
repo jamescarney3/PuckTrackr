@@ -4,14 +4,14 @@ import json
 
 from game_parser import parse_game
 from event_parser import parse_event
+from roster_parser import parse_roster
 
 from bs4 import BeautifulSoup
 
 # workflow here should roughly be:
 # - request game report from url
 # - on a 200 response parse html body into a representative dict
-# - save dict as .json file (@TODO give munch_report a way to
-#   know what dir to save a given game json object to)
+# - save dict as .json file
 # - make entries into a central db for game and all corresponding
 #   event records
 
@@ -21,7 +21,15 @@ from bs4 import BeautifulSoup
 # - @TODO need some sort of controller to periodically scrape for
 #   games
 
-# get TOI report data with `soup('td', {'class': 'playerHeading'})`
+# pattern here should instead be:
+# --> take in a left_off hash
+# --> build urls for game report and TOI reports
+# --> parse game report heading data with game_parser
+# --> parse game report events with event_parser
+# @TODO update event_parser to extract a player # from event description
+# @TODO update event_parser to parse on_ice fields into arrays of numbers
+# --> parse TOI reports for home & visitor rosters with roster_parser
+# --> add events and rosters to game json as events, home_players, away_players
 
 def parse_full_report(url):
     content = requests.get(url).content
