@@ -3,7 +3,7 @@ import os
 import datetime
 import time
 
-from url_builder import build_url, get_serial_num
+from url_builder import build_game_report_url, get_serial_num
 from soup_scraper import parse_full_report
 
 SEPTEMBER = 9
@@ -36,12 +36,12 @@ def crawl(iterations=None):
 
 def process_next_game(left_off):
     try:
-        game_json = parse_full_report(build_url(left_off))
+        game_json = parse_full_report(build_game_report_url(left_off))
         save_game_json(game_json, left_off)
-        log_success(build_url(left_off))
+        log_success(build_game_report_url(left_off))
         left_off['times_failed'] = 0
     except TypeError:
-        log_failure(build_url(left_off))
+        log_failure(build_game_report_url(left_off))
         left_off['times_failed'] += 1
 
     save_left_off(increment_left_off(left_off))
