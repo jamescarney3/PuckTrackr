@@ -21,6 +21,8 @@ from bs4 import BeautifulSoup
 # - @TODO need some sort of controller to periodically scrape for
 #   games
 
+# get TOI report data with `soup('td', {'class': 'playerHeading'})`
+
 def parse_full_report(url):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
