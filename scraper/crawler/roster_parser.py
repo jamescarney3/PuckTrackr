@@ -1,7 +1,12 @@
 from bs4 import BeautifulSoup
 import re
+import requests
 
-def parse_roster(player_headings):
+def parse_roster(url):
+    content = requests.get(url).content
+    soup = BeautifulSoup(content)
+    player_headings =  soup('td', {'class': 'playerHeading'})
+
     players = []
     for heading in player_headings:
         number = re.compile('\d+').search(heading.get_text()).group()

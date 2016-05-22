@@ -1,6 +1,9 @@
-from bs4 import BeautifulSoup
 import re
+import requests
 
+from bs4 import BeautifulSoup
+
+from event_parser import parse_event
 from utils import ABBREVIATIONS
 
 whiteSpaceReducer = re.compile('(\s|\xa0|&nbsp;)+')
@@ -8,11 +11,18 @@ name_isolator = re.compile(' Game \d+ (Home|Away) Game \d+')
 attendance_matcher = re.compile('(\d+,|)\d+')
 arena_isolator = re.compile('(Attendance|Ass./Att) (\d+,|)\d+ (at|@) ')
 
-def parse_game(visitor_info, home_info, game_info):
+def parse_game_(url):
+    content = requests.get(url).content
+    soup = BeautifulSoup(content)
+    events = soup.find_all('tr', {'class': 'evenColor'})
+    visitor_info = soup.find('table', {'id': 'Visitor'})
+    home_info = soup.find('table', {'id': 'Home'})
+    game_info = soup.find('table', {'id': 'GameInfo'})
+
     visitor_info_vals = []
     home_info_vals = []
     game_info_vals = []
-    game_options = {}
+    game_json = {}
 
     for td in visitor_info('td'):
         visitor_info_vals.append(whiteSpaceReducer.sub(' ', td.get_text(' ', strip=True)))
@@ -23,19 +33,26 @@ def parse_game(visitor_info, home_info, game_info):
     for td in game_info('td'):
         game_info_vals.append(whiteSpaceReducer.sub(' ', td.get_text(' ', strip=True)))
 
-    game_options['serial'] = re.compile('\D').sub('', game_info_vals[6])
+    game_json['serial'] = re.compile('\D').sub('', game_info_vals[6])
     # if game_info_vals[2]:
-    #     game_options['season'] = 'playoffs'
-    game_options['date'] = game_info_vals[3]
-    game_options['attendance'] = attendance_matcher.search(game_info_vals[4]).group()
-    game_options['arena'] = arena_isolator.sub('', game_info_vals[4])
-    # game_options['start'] = game_info_vals[5] ---- regexed for start time
-    # game_options['end'] = game_info_vals[5] ---- regexed for end time
-    game_options['home_team'] = name_isolator.sub('', home_info_vals[5])
-    game_options['home_abbreviation'] = ABBREVIATIONS[name_isolator.sub('', home_info_vals[5]).lower()]
-    game_options['home_score'] = int(home_info_vals[1])
-    game_options['visitor_team'] = name_isolator.sub('', visitor_info_vals[5])
-    game_options['visitor_abbreviation'] = ABBREVIATIONS[name_isolator.sub('', visitor_info_vals[5]).lower()]
-    game_options['visitor_score'] = int(visitor_info_vals[1])
+    #     game_json['season'] = 'playoffs'
+    game_json['date'] = game_info_vals[3]
+    game_json['attendance'] = attendance_matcher.search(game_info_vals[4]).group()
+    game_json['arena'] = arena_isolator.sub('', game_info_vals[4])
+    # game_json['start'] = game_info_vals[5] ---- regexed for start time
+    # game_json['end'] = game_info_vals[5] ---- regexed for end time
+    game_json['home_team'] = name_isolator.sub('', home_info_vals[5])
+    game_json['home_abbreviation'] = ABBREVIATIONS[name_isolator.sub('', home_info_vals[5]).lower()]
+    game_json['home_score'] = int(home_info_vals[1])
+    game_json['visitor_team'] = name_isolator.sub('', visitor_info_vals[5])
+    game_json['visitor_abbreviation'] = ABBREVIATIONS[name_isolator.sub('', visitor_info_vals[5]).lower()]
+    game_json['visitor_score'] = int(visitor_info_vals[1])
 
-    return game_options
+    game_json['events'] = []
+
+    for event in events:
+        game_json['events'].append(parse_event(event))
+
+    game_json['url'] = url
+
+    return game_json

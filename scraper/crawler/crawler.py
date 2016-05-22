@@ -16,6 +16,11 @@ SEASON_FLAGS = {
     'season': 2,
     'postseason': 3}
 
+# - @TODO need a way to interact with db from scraper, decide
+#   which db to use
+# - @TODO need some sort of controller to periodically scrape for
+#   games
+
 # main method for crawler - if no iterations argument is passed into it
 # crawl should process games until the left_off json file is no longer up to
 # date with the current year or it is interrupted
@@ -36,10 +41,11 @@ def crawl(iterations=None):
 
 def process_next_game(left_off):
     try:
-        game_json = parse_full_report(build_game_report_url(left_off))
+        game_json = parse_full_report(left_off)
         save_game_json(game_json, left_off)
         log_success(build_game_report_url(left_off))
         left_off['times_failed'] = 0
+        return game_json
     except TypeError:
         log_failure(build_game_report_url(left_off))
         left_off['times_failed'] += 1

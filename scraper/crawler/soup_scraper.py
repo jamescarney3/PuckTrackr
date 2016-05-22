@@ -1,50 +1,24 @@
-import requests
 import re
 import json
 
-from game_parser import parse_game
-from event_parser import parse_event
-from roster_parser import parse_roster
-
 from bs4 import BeautifulSoup
 
-# workflow here should roughly be:
-# - request game report from url
-# - on a 200 response parse html body into a representative dict
-# - save dict as .json file
-# - make entries into a central db for game and all corresponding
-#   event records
+from url_builder import build_game_report_url, build_home_roster_url, build_visitor_roster_url
+from game_parser import parse_game
+from roster_parser import parse_roster
 
-# blockers:
-# - @TODO need a way to interact with db from scraper, decide
-#   which db to use
-# - @TODO need some sort of controller to periodically scrape for
-#   games
+# - @TODO update event_parser to give events home_players and visitor_players props
 
-# pattern here should instead be:
-# --> take in a left_off hash
-# --> build urls for game report and TOI reports
-# --> parse game report heading data with game_parser
-# --> parse game report events with event_parser
-# @TODO update event_parser to extract a player # from event description
-# @TODO update event_parser to parse on_ice fields into arrays of numbers
-# --> parse TOI reports for home & visitor rosters with roster_parser
-# --> add events and rosters to game json as events, home_players, away_players
+def parse_full_report(left_off):
+    game_report_url = build_game_report_url(left_off)
+    home_roster_url = build_home_roster_url(left_off)
+    visitor_roster_url = build_visitor_roster_url(left_off)
 
-def parse_full_report(url):
-    content = requests.get(url).content
-    soup = BeautifulSoup(content)
-    events = soup.find_all('tr', {'class': 'evenColor'})
-    visitor_info = soup.find('table', {'id': 'Visitor'})
-    home_info = soup.find('table', {'id': 'Home'})
-    game_info = soup.find('table', {'id': 'GameInfo'})
+    game_json = parse_game(game_report_url)
+    home_players = parse_roster(home_roster_url)
+    visitor_players = parse_roster(visitor_roster_url)
 
-    game = parse_game(home_info, visitor_info, game_info)
-    game['events'] = []
+    game_json['home_players'] = home_players
+    game_json['visitor_players'] = visitor_players
 
-    for event in events:
-        game['events'].append(parse_event(event))
-
-    game['url'] = url
-
-    return game
+    return game_json
