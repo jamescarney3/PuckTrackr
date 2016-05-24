@@ -11,7 +11,7 @@ name_isolator = re.compile(' Game \d+ (Home|Away) Game \d+')
 attendance_matcher = re.compile('(\d+,|)\d+')
 arena_isolator = re.compile('(Attendance|Ass./Att) (\d+,|)\d+ (at|@) ')
 
-def parse_game_(url):
+def parse_game(url):
     content = requests.get(url).content
     soup = BeautifulSoup(content)
     events = soup.find_all('tr', {'class': 'evenColor'})

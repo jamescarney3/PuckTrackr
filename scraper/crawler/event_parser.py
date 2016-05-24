@@ -21,8 +21,18 @@ def parse_event(event_el):
     if vals[4] != 'STOP' and vals[4] != 'PSTR' and vals[4] != 'PEND' and vals[4] != 'GEND':
         event_options['team'] = vals[5][0:3]
     if vals[6]:
-        event_options['visitor_players'] = vals[6]
+        event_options['visitor_players'] = parse_on_ice(vals[6])
     if vals[7]:
-        event_options['home_players'] = vals[7]
+        event_options['home_players'] = parse_on_ice(vals[7])
 
     return event_options
+
+def parse_on_ice(player_table_text):
+    players = []
+    els = player_table_text.split()
+    while len(els) >= 2:
+        players.append({
+            'number': els.pop(0),
+            'position': els.pop(0)})
+
+    return players
