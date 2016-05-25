@@ -41,15 +41,36 @@ var DemoController = {
     // I still don't do anything - I still need the scraper to be able to parse
     // TOI reports and attach players to events by team & number in orer to
     // computer shot differentials and relative shot differentials
-  }
+  },
 
-  sampleGamePlayerCorsi: function(team, number){
-    // ovie = u'8' (or arg number this flow assumes home team)
-    // ovie_events = [event for event in game_json['events'] if ovie in [player['number'] for player in event['home_players']]]
-    // ovie_shot_events = [event for event in ovie_events if event['event_type'] in ['SHOT', 'MISS', 'BLOCK', 'GOAL']]
-    // ovie_shots_for = [event for event in ovie_shot_events if event['team'] == game_json['home_abbreviation']]
-    // ovie_shots_against = [event for event in ovie_shot_events if event['team'] == game_json['visitor_abbreviation']]
-    // ovie_corsi = float(len(ovie_shots_for)) / float(len(ovie_shots_against))
+  sampleGameHomePlayerCorsi: function(number, callback){
+    var content = fs.readJson('./resources/sampleGame.json', function(err, gameJSON){
+      var player_shot_events = _.filter(gameJSON.events, function(event){
+        return _.contains(['SHOT', 'MISS', 'BLOCK', 'GOAL'], event.event_type) &&
+        _.contains(_.map(event.home_players, function(player){
+          return player.number;
+        }), number)
+      });
+
+      var playerShotEventsFor = _.filter(player_shot_events, function(event){
+        return event.team == gameJSON.home_abbreviation
+      })
+
+      var playerShotEventsAgainst = _.filter(player_shot_events, function(event){
+        return event.team == gameJSON.visitor_abbreviation
+      })
+
+      var corsi = parseFloat(playerShotEventsFor.length) /
+        parseFloat(playerShotEventsFor.length + playerShotEventsAgainst.length)
+
+      var corsiData = {
+        'corsi': corsi,
+        'shotEventsFor': playerShotEventsFor.length,
+        'shotEventsAgainst': playerShotEventsAgainst.length
+      }
+
+      callback(corsiData);
+    });
   }
 }
 
