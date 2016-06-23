@@ -26,6 +26,12 @@ events = Table('events', metadata,
     Column('team', String)
 )
 
+player_events = Table('player_events', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('player_id', Integer, ForeignKey('players.id')),
+    Column('event_id', Integer, ForeignKey('events.id'))
+)
+
 games = Table('games', metadata,
     Column('id', Integer, primary_key=True),
     Column('serial', Integer),
