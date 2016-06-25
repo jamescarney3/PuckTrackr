@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 db = create_engine('postgresql://postgres@localhost/hockey')
 
 metadata = MetaData(db)
+
 players = Table('players', metadata,
     Column('id', Integer, primary_key=True),
     Column('first', String(40)),
@@ -12,7 +13,6 @@ players = Table('players', metadata,
     Column('team', String)
 )
 
-# needs a join with players
 events = Table('events', metadata,
     Column('id', Integer, primary_key=True),
     Column('game_id', Integer, ForeignKey('games.id')),
