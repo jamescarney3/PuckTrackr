@@ -45,12 +45,12 @@ def process_next_game(left_off):
         save_game_json(game_json, left_off)
         log_success(build_game_report_url(left_off))
         left_off['times_failed'] = 0
+        save_left_off(increment_left_off(left_off))
         return game_json
     except TypeError:
         log_failure(build_game_report_url(left_off))
         left_off['times_failed'] += 1
-
-    save_left_off(increment_left_off(left_off))
+        save_left_off(increment_left_off(left_off))
 
 
 def increment_left_off(left_off):
@@ -78,11 +78,12 @@ def increment_left_off(left_off):
             left_off['series'] = 1
             left_off['season_flag'] = 1
             left_off['year'] += 1
+    print('incrementer says ' + str(left_off))
     return left_off
 
 
 def scraper_root_dir():
-    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
 
 
 def is_year_current(year):
@@ -95,6 +96,7 @@ def is_year_current(year):
 
 
 def save_left_off(left_off):
+    print('saver says ' + str(left_off))
     json.dump(left_off, open(scraper_root_dir() + '/resources/left_off.json', 'wb'))
 
 

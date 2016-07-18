@@ -1,3 +1,5 @@
+# coding: latin-1
+
 import re
 import requests
 
@@ -7,7 +9,7 @@ from event_parser import parse_event
 from utils import ABBREVIATIONS
 
 whiteSpaceReducer = re.compile('(\s|\xa0|&nbsp;)+')
-name_isolator = re.compile(' Game \d+ (Home|Away) Game \d+')
+name_isolator = re.compile(' (Match/)*Game \d+ ((Dom\./)*Home|(.tr\./)*Away) (Game )*\d+')
 attendance_matcher = re.compile('(\d+,|)\d+')
 arena_isolator = re.compile('(Attendance|Ass./Att) (\d+,|)\d+ (at|@) ')
 
