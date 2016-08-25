@@ -25,8 +25,7 @@ SEASON_FLAGS = {
 # crawl should process games until the left_off json file is no longer up to
 # date with the current year or it is interrupted
 def crawl(iterations=None):
-    with open(scraper_root_dir() + '/resources/left_off.json') as left_off_json:
-        left_off = json.load(left_off_json)
+    left_off = get_left_off()
 
     if not iterations:
         while is_year_current(left_off['year']):
@@ -83,8 +82,13 @@ def increment_left_off(left_off):
 
 
 def scraper_root_dir():
-    return os.path.dirname(os.path.dirname(os.path.abspath('__file__')))
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+def get_left_off():
+    with open(scraper_root_dir() + '/resources/left_off.json') as left_off_json:
+        left_off = json.load(left_off_json)
+        return left_off
 
 def is_year_current(year):
     if year <= datetime.date.today().year and datetime.date.today().month >= SEPTEMBER:
